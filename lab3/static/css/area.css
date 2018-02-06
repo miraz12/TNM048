@@ -24,3 +24,14 @@ path {
   fill-opacity: .125;
   shape-rendering: crispEdges;
 }
+
+.zoom {
+    cursor: move;
+    fill: none;
+    pointer-events: all;
+}
+
+.area {
+    fill: steelblue;
+    clip-path: url(#clip);
+}

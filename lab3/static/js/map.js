@@ -59,6 +59,18 @@ function map(data, world_map_json){
 
   function draw(countries){
     //Add code here.
+
+      countries.enter()
+          .insert("path")
+          .attr("class", "country")
+          .attr("d", path)
+          .attr("id", function (d) {
+              return d.id;
+          })
+          .attr("title", function (d) {
+              return d.properties.name
+          });
+          //.style("fill", function (d) { return d.properties.color; });
   }
 
   //Formats the data in a feature collection
@@ -69,6 +81,17 @@ function map(data, world_map_json){
           data.push({
             //Create five variables called :
             //id,type,geometry,mag and place and assign the corresponding value to is
+              "id": d.id,
+              "type": "Feature", 
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [
+                      d.lon,
+                      d.lat
+                  ]
+              }, 
+              "mag": d.mag, 
+              "place": d.place
             //geometry is an object and has two other attributes called coordinates and type.
           });
       });

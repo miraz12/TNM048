@@ -11,14 +11,12 @@ function kmeans(data, k) {
     //Remember to reference any code that you have not implemented yourself! 
 
     var centroids = [];
-    var dimensions = Object.keys(data[0]).length;
     for (var i = 0; i < k; i++) {
-        var centroid = [];
-        for (var j = 0; j < dimensions; j++) {
-            centroid.push(Math.random())
-        }
-        centroids.push(centroid);
+        var c = Math.floor(Math.random() * data.length);
+        centroids.push(Object.values(data[c]));
     }
+
+    var dimensions = Object.keys(data[0]).length;
 
     var result = {
         assignments: []

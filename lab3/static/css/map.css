@@ -2,7 +2,7 @@
 
 .point {
     fill: orange;
-    /*stroke: #FFF;*/
+    stroke: #FFF;
 }
 
 .hidden {
