@@ -167,6 +167,8 @@ function zoomed() {
     focus.select(".area").attr("d", area);
     focus.select(".axis--x").call(xAxis);
     context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+
+    map1.filterTime(x.domain());
 }
 
 }
