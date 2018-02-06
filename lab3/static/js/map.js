@@ -89,7 +89,8 @@ function map(data, world_map_json){
                       d.lon,
                       d.lat
                   ]
-              }, 
+              },
+              "depth": d.depth,
               "mag": d.mag, 
               "place": d.place
             //geometry is an object and has two other attributes called coordinates and type.
