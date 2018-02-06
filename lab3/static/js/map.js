@@ -146,7 +146,7 @@ function map(data, world_map_json){
               .style("visibility", function (d) {
                 //show if mag > curr_mag && tmpT between timeExt
                   var tmpT = format(d.time);
-                  if (d.mag > curr_mag)
+                  if (d.mag > curr_mag && timeExt[0] < tmpT && tmpT < timeExt[1])
                   {
                       //push to filterdData
                       return "visible";
