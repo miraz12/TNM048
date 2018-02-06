@@ -128,6 +128,7 @@ function map(data, world_map_json){
   //Calls the filtering function
   d3.select("#slider").on("input", function () {
       //Call filterMag function here with this.value and data
+      filterMag(this.value);
   });
 
 
@@ -145,14 +146,14 @@ function map(data, world_map_json){
               .style("visibility", function (d) {
                 //show if mag > curr_mag && tmpT between timeExt
                   var tmpT = format(d.time);
-                  /*if ()
+                  if (d.mag > curr_mag)
                   {
                       //push to filterdData
                       return "visible";
                   }
                   else
                       return "hidden";
-                */
+
               });
 
   }
@@ -167,14 +168,14 @@ function map(data, world_map_json){
               .style("visibility", function (d) {
                   //push d to filterData only if mag is > curr_mag and tmpT is between timeExt
                     var tmpT = format(d.time);
-                  /*if ()
+                  if (value[0] < tmpT && tmpT < value[1] && d.mag > curr_mag)
                   {
                       //filterData here
                       return "visible";
                   }
                   else
                       return "hidden";
-                */
+
               });
 
   };

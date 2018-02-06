@@ -155,6 +155,9 @@ function brushed() {
     svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
         .scale(width / (s[1] - s[0]))
         .translate(-s[0], 0));
+
+    map1.filterTime(x.domain());
+
 }
 
 function zoomed() {
