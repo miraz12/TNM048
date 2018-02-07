@@ -172,6 +172,7 @@ function map(data, world_map_json){
                   if (value[0] < tmpT && tmpT < value[1] && d.mag > curr_mag)
                   {
                       //filterData here
+                      
                       filterdData.push(d);
                       return "visible";
                   }
@@ -186,20 +187,33 @@ function map(data, world_map_json){
   //Calls k-means function and changes the color of the points
   this.cluster = function () {
       //Get the value from the input form in index
-      var k = Document.getElementById("k").value;
+      var k = document.getElementById("k").value;
+
+      var filteredData = [];
+
+      for (var i = 0; i < filterdData.length; i++) {
+          var entry = {
+              depth: filterdData[i].depth,
+              mag: filterdData[i].mag
+          }
+          filteredData.push(entry);
+      }
 
       //Call the kmeansRes on the filterdData with k clusters.
-      //var kmeansRes =
+      var kmeansRes = kmeans(filteredData, k);
+
+      var color = d3.scaleOrdinal(d3.schemeCategory10);
 
       d3.selectAll(".point").data(data)
           //Change style fill if id == in filterdData id
               .style("fill", function (d) {
                   for (var j = 0; j < filterdData.length; j++)
                   {
-                      /*if () {
+                      if (d.id == filterdData[j].id) {
                           //return colors for each assignment j
-                          return
-                      }*/
+                          var tmpColor = color(kmeansRes.assignments[j]);
+                          return tmpColor;
+                      }
                   }
 
               });
