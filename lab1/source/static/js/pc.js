@@ -40,12 +40,20 @@ function pc(data){
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   /* ~~ Task 6 Scale the x axis ~~*/
+  var x = d3.scaleBand()
+      .domain(dimensions.map(function (d) { return d.name; }))
+      .range([0, width]);
 
 
   /* ~~ Task 7 Add the x axes ~~*/
-  var axes = svg.selectAll(".axes");
   // add code here..
 
+  var axes = svg.selectAll(".axes")
+      .data(dimensions)
+      .enter()
+      .append("g")
+      .attr("class", "dimension")
+      .attr("transform", function (d) { return "translate(" + x(d.name) + ")"; });
 
 
         axes.append("g")
@@ -69,23 +77,33 @@ function pc(data){
        .selectAll("path")
        .data(data)
        .enter().append("path")
-       //.attr("d", draw); // Uncomment when x axis is implemented
+       .attr("d", draw); // Uncomment when x axis is implemented
+
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
 
     var foreground = svg.append("g")
-       .attr("class", "foreground")
-       .selectAll("path")
-       .data(data)
-       .enter().append("path")
-       //.attr("d", draw) // Uncomment when x axis is implemented
-
+        .attr("class", "foreground")
+        .selectAll("path")
+        .data(data)
+        .enter().append("path")
+        .attr("d", draw) // Uncomment when x axis is implemented
+        .style("stroke", function (d) { return color(d["Country"]); });
        //Add color here
+
+
+        
 
     /* ~~ Task 9 Add and store a brush for each axis. ~~*/
     axes.append("g")
         .attr("class", "brush")
-
         /* ~~ Add brush here */
-
+        .each(function (d) {
+            d3.select(this).call(d.brush = d3.brushY()
+                .extent([[-10, 0], [10, height]])
+                .on("start", brushstart)
+                .on("brush", brush)
+                .on("end", brush))
+        })
         .selectAll("rect")
         .attr("x", -10)
         .attr("width", 20);
@@ -181,7 +199,19 @@ function pc(data){
 
     //Select all the foregrounds send in the function as value
     this.selectLine = function(value){
-       /* ~~ Select the lines ~~*/
+        svg.selectAll("path").data(data)
+            .filter(function (d) {
+                return value.includes(d.Country);
+            })
+            .classed("inactive", false)
+            .classed("active", true);
+
+        svg.selectAll("path").data(data)
+            .filter(function (d) {
+                return !value.includes(d.Country);
+            })
+            .classed("inactive", true)
+            .classed("active", false);
     };
 
     function axesDims(height){

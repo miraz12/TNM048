@@ -14,7 +14,7 @@ function sp(data) {
         width = parentWidth - margin.right - margin.left,
         height = height - margin.top - margin.bottom;
 
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var color = d3.scaleOrdinal(d3.schemeCategory20);
 
     var tooltip = d3.select(div).append("div")
         .attr("class", "tooltip")
@@ -45,20 +45,20 @@ function sp(data) {
 
         /* ~~ Task 3 Add the x and y Axis and title  ~~ */
 
-    var circles = svg.selectAll("circle")  // <-- No longer "rect"
+    var circles = svg.selectAll("circle")
         .data(data)
         .enter()
-        .append("circle")     // <-- No longer "rect"
+        .append("circle")
         .style("fill", function (d) {
             return color(d["Country"]);
-       })
+        })
         .attr("cx", function (d) {
             var tmp = scaleX(d.Household_income);
             return tmp;
-    })
+        })
         .attr("cy", function (d) {
             return scaleY(d.Self_reported_health);
-    })
+        })
         .attr("r", function (d) {
             return ((d.Life_satisfaction - 40) / Math.PI) * 0.7;
         })
@@ -139,11 +139,15 @@ function sp(data) {
                             return isBrushed(brush_coords, cx, cy);
                   })
                   .attr("class", "brushed");
-                   var d_brushed =  d3.selectAll(".brushed").data();
+                   var d_brushed = d3.selectAll(".brushed").data();
+
+                   var count = [];
+                   d_brushed.forEach(function (d) { count.push(d.Country); });
 
 
                    /* ~~~ Call pc or/and map function to filter ~~~ */
-
+                   pc.selectLine(count);
+                   map.selectCountry(count);
              }
          }//highlightBrushedCircles
          function isBrushed(brush_coords, cx, cy) {
@@ -158,6 +162,18 @@ function sp(data) {
 
          //Select all the dots filtered
          this.selecDots = function(value){
+             svg.selectAll("circle").data(data)
+                 .filter(function (d) {
+                     return value.includes(d.Country);
+                 })
+                 .attr("class", "brushed");
+
+
+             svg.selectAll("circle").data(data)
+                 .filter(function (d) {
+                     return !value.includes(d.Country);
+                 })
+                 .attr("class", "non_brushed");
 
          };
 

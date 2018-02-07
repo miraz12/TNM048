@@ -15,6 +15,9 @@ function map(data, world_map_json){
 
   /*~~ Task 10  initialize color variable ~~*/
 
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+
   //initialize zoom
   var zoom = d3.zoom()
     .scaleExtent([1, 10])
@@ -27,6 +30,14 @@ function map(data, world_map_json){
 
 
   /*~~ Task 11  initialize projection and path variable ~~*/
+
+  var projection = d3.geoMercator()
+      .center([60, 40])
+      .scale(120);
+
+
+  var path = d3.geoPath()
+      .projection(projection);
 
   var svg = d3.select(div).append("svg")
       .attr("width", width)
@@ -44,11 +55,13 @@ function map(data, world_map_json){
   /*~~ Task 12  initialize color array ~~*/
   var cc = [];
 
+  data.forEach(function (d) { cc[d["Country"]] = color(d["Country"]); });
+
   country.enter().insert("path")
       .attr("class", "country")
-
-        /*~~ Task 11  add path variable as attr d here. ~~*/
-
+      
+      /*~~ Task 11  add path variable as attr d here. ~~*/
+      .attr("d", path)
       .attr("id", function(d) { return d.id; })
       .attr("title", function(d) { return d.properties.name; })
       .style("fill", function(d) { return cc[d.properties.name]; })
@@ -76,6 +89,12 @@ function map(data, world_map_json){
       //selection
       .on("click",  function(d) {
           /*~~ call the other graphs method for selection here ~~*/
+          var count = [];
+          count.push(d.properties.name);
+
+          sp.selecDots(count);
+          pc.selectLine(count);
+
       });
 
   function move() {
@@ -84,8 +103,18 @@ function map(data, world_map_json){
   }
 
     /*~~ Highlight countries when filtering in the other graphs~~*/
-  this.selectCountry = function(value){
+  this.selectCountry = function (value) {
+      g.selectAll(".country").data(countries)
+          .filter(function (d) {
+              return value.includes(d.properties.name);
+          })
+          .style('stroke', 'DarkRed');
 
+      g.selectAll(".country").data(countries)
+          .filter(function (d) {
+              return !value.includes(d.properties.name);
+          })
+          .style('stroke', 'none');
   }
 
 }
