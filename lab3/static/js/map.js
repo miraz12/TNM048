@@ -149,6 +149,7 @@ function map(data, world_map_json){
                   if (d.mag > curr_mag && timeExt[0] < tmpT && tmpT < timeExt[1])
                   {
                       //push to filterdData
+                      filterdData.push(d);
                       return "visible";
                   }
                   else
@@ -171,6 +172,7 @@ function map(data, world_map_json){
                   if (value[0] < tmpT && tmpT < value[1] && d.mag > curr_mag)
                   {
                       //filterData here
+                      filterdData.push(d);
                       return "visible";
                   }
                   else
@@ -184,7 +186,7 @@ function map(data, world_map_json){
   //Calls k-means function and changes the color of the points
   this.cluster = function () {
       //Get the value from the input form in index
-      //var k =
+      var k = Document.getElementById("k").value;
 
       //Call the kmeansRes on the filterdData with k clusters.
       //var kmeansRes =
