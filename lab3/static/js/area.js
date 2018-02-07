@@ -155,6 +155,9 @@ function brushed() {
     svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
         .scale(width / (s[1] - s[0]))
         .translate(-s[0], 0));
+
+    map1.filterTime(x.domain());
+
 }
 
 function zoomed() {
@@ -164,6 +167,8 @@ function zoomed() {
     focus.select(".area").attr("d", area);
     focus.select(".axis--x").call(xAxis);
     context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+
+    map1.filterTime(x.domain());
 }
 
 }
