@@ -202,7 +202,7 @@ function map(data, world_map_json){
       //Call the kmeansRes on the filterdData with k clusters.
       var kmeansRes = kmeans(filteredData, k);
 
-      var color = d3.scaleOrdinal(d3.schemeCategory10);
+      var color = d3.scaleOrdinal(d3.schemeCategory20);
 
       d3.selectAll(".point").data(data)
           //Change style fill if id == in filterdData id

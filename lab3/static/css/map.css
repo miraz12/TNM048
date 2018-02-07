@@ -1,4 +1,6 @@
-.country{ fill: rgb(0, 75, 151); }
+.country {
+    fill: rgb(120, 120, 120);
+}
 
 .point {
     fill: orange;
